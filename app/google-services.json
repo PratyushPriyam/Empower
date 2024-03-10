@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "250961774861",
+    "firebase_url": "https://empower-cbe30-default-rtdb.firebaseio.com",
+    "project_id": "empower-cbe30",
+    "storage_bucket": "empower-cbe30.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:250961774861:android:c3e853655f3cdcb1a00844",
+        "android_client_info": {
+          "package_name": "com.assignment.empower"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBux0NtAFUWf3j4BbMwecdBvZbRUVPNuKE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

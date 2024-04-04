@@ -54,4 +54,6 @@ dependencies {
     implementation("androidx.viewpager2:viewpager2:1.1.0-beta01")
     // Glide
     implementation("com.github.bumptech.glide:glide:4.14.2")
+    // Progress Bar
+    implementation("com.mikhaellopez:circularprogressbar:3.1.0")
 }

@@ -1,10 +1,17 @@
 package com.assignment.empower
 
 import android.app.ActivityOptions
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.transition.Slide
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -28,19 +35,34 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.mikhaellopez.circularprogressbar.CircularProgressBar
 import com.squareup.picasso.Picasso
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import kotlin.properties.Delegates
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), SensorEventListener {
     private var workoutList: MutableList<WorkoutModelClass> = mutableListOf()
     val adapter = WorkoutAdapter(workoutList, this)
     lateinit var progressBar: ProgressBar
+    private var sensorManager: SensorManager? = null
+    private var running = false
+    private var totalSteps = 0f
+    private var previousTotalSteps = 0f
+    lateinit var circularprogress: CircularProgressBar
+    private var maxSteps: Int = 0
+    private var currentSteps: Int = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.enterTransition = Slide(Gravity.BOTTOM)
         setContentView(R.layout.activity_main)
+
+        circularprogress = findViewById(R.id.circularprogress)
+            loadData()
+        resetSteps()
+        sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
 
         val subButtonAnimationHorizontal = AnimationUtils.loadAnimation(this, R.anim.sub_button_animation_horizontal)
         val subButtonAnimationVertical = AnimationUtils.loadAnimation(this, R.anim.sub_button_animation_vertical)
@@ -209,6 +231,35 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    private fun loadData() {
+        val sharedPreferences = getSharedPreferences("myPrefs", Context.MODE_PRIVATE)
+        val savedNumber = sharedPreferences.getFloat("key1", 0f)
+        Log.d("MainActivity", "$savedNumber")
+        previousTotalSteps = savedNumber
+    }
+    private fun saveData() {
+        val sharedPreferences = getSharedPreferences("myPrefs", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putFloat("key1", previousTotalSteps)
+        editor.apply()
+    }
+    fun resetSteps() {
+        var tv_stepsTaken = findViewById<TextView>(R.id.tv_stepsTaken)
+        tv_stepsTaken.setOnClickListener {
+            Toast.makeText(this, "Long tap to reset steps", Toast.LENGTH_SHORT).show()
+        }
+        tv_stepsTaken.setOnLongClickListener {
+            previousTotalSteps = totalSteps
+            tv_stepsTaken.text = 0.toString()
+            saveData()
+            circularprogress.apply {
+                setProgressWithAnimation(0F)
+            }
+            true
+        }
+    }
+
+
     private fun saveWorkoutListToFirebase(workoutList: List<WorkoutModelClass>) {
         // Retrieve user ID (replace with your actual method)
         val firebaseAuth = FirebaseAuth.getInstance()
@@ -247,5 +298,31 @@ class MainActivity : AppCompatActivity() {
             toast.view = inflater
             toast.show()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        running = true
+        val stepSensor = sensorManager?.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
+        if (stepSensor == null) {
+            Toast.makeText(this, "No sensor detected on this device", Toast.LENGTH_SHORT).show()
+        } else {
+            sensorManager?.registerListener(this, stepSensor, SensorManager.SENSOR_DELAY_UI)
+        }
+    }
+    override fun onSensorChanged(event: SensorEvent?) {
+        var tv_stepsTaken = findViewById<TextView>(R.id.tv_stepsTaken)
+        if (running) {
+            totalSteps = event!!.values[0]
+            currentSteps = totalSteps.toInt() - previousTotalSteps.toInt()
+            tv_stepsTaken.text = ("$currentSteps")
+            circularprogress.apply {
+                setProgressWithAnimation(currentSteps.toFloat())
+            }
+        }
+    }
+
+    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
+        // Not used in this implementation
     }
 }

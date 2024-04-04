@@ -33,6 +33,10 @@ class Profile : AppCompatActivity() {
 
         // Setting profile name.
         val profileNameTxt = findViewById<TextView>(R.id.profileNameTxt)
+        val profileImg = findViewById<CardView>(R.id.profileImg)
+        profileImg.setOnClickListener {
+            startActivity(Intent(this, WaterIntake::class.java))
+        }
 
         // Get current user and extract email address
         val firebaseAuth = FirebaseAuth.getInstance()

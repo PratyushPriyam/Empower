@@ -69,16 +69,24 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         val subButtonAnimationDiagonal = AnimationUtils.loadAnimation(this, R.anim.sub_button_animation_diagonal)
         val addWorkoutBtn = findViewById<Button>(R.id.addWorkoutBtn)
 
-        addWorkoutBtn.setOnClickListener {
-            val workoutName = findViewById<EditText>(R.id.workoutNameEdt).text.toString()
-            val sets = findViewById<EditText>(R.id.setsEdt).text.toString().toInt()
-            val reps = findViewById<EditText>(R.id.repsEdt).text.toString().toInt()
+            addWorkoutBtn.setOnClickListener {
+
+                if (findViewById<EditText>(R.id.workoutNameEdt).text.trim().isEmpty() ||
+                    findViewById<EditText>(R.id.setsEdt).text.trim().isEmpty() ||
+                    findViewById<EditText>(R.id.repsEdt).text.trim().isEmpty()) {
+                    Toast.makeText(this, "Fill all entries first", Toast.LENGTH_SHORT).show()
+                }
+                else {
+                    val workoutName = findViewById<EditText>(R.id.workoutNameEdt).text.toString()
+                    val sets = findViewById<EditText>(R.id.setsEdt).text.toString().toInt()
+                    val reps = findViewById<EditText>(R.id.repsEdt).text.toString().toInt()
 
 
-            val newWorkout = WorkoutModelClass(workoutName, sets, reps)
-            workoutList.add(newWorkout) // Add new instance
+                    val newWorkout = WorkoutModelClass(workoutName, sets, reps)
+                    workoutList.add(newWorkout) // Add new instance
 
-            adapter.notifyDataSetChanged() // Update adapter with new list
+                    adapter.notifyDataSetChanged()
+            }
         }
 
         // Motivation Card Inflating

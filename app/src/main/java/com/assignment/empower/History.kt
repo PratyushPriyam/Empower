@@ -68,7 +68,12 @@ class History : AppCompatActivity() {
 
         fetchButton.setOnClickListener {
             val selectedDate = dateEditText.text.toString()
-            fetchWorkoutData(selectedDate)
+
+            if (selectedDate.isEmpty()) {
+                Toast.makeText(this, "Select a date first", Toast.LENGTH_SHORT).show()
+            } else {
+                fetchWorkoutData(selectedDate)
+            }
         }
     }
     private fun fetchWorkoutData(selectedDate: String) {
@@ -77,10 +82,9 @@ class History : AppCompatActivity() {
         val userId = currentUser?.uid ?: return // Handle case where user is not logged in
 
         val database = FirebaseDatabase.getInstance().reference
-        val appRef = database.child("empower")
-        val userRef = appRef.child(userId)
+        val userRef = database.child("empower").child(userId).child(selectedDate)
 
-        userRef.child(selectedDate).addValueEventListener(object : ValueEventListener {
+        userRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 workoutList.clear()
                 if (snapshot.exists()) {

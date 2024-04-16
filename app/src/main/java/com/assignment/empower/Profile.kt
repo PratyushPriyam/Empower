@@ -99,11 +99,11 @@ class Profile : AppCompatActivity() {
         // Opening Pratyush|Portfolio website.
         val goPremiumBtn = findViewById<Button>(R.id.goPremiumBtn)
         goPremiumBtn.setOnClickListener {
-            val url = "https://pratyushpriyam.github.io/3D-Portfolio/" // Replace with actual URL
+//            val url = "https://pratyushpriyam.github.io/3D-Portfolio/"
 
             // Open the URL in the default web browser
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-            startActivity(intent)
+//            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            startActivity(Intent(this, WebView::class.java))
         }
         val logoutBtn = findViewById<CardView>(R.id.logoutBtn)
         logoutBtn.setOnClickListener {

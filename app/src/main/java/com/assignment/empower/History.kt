@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.GridView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.GridLayoutManager
@@ -26,7 +27,7 @@ import java.util.Locale
 class History : AppCompatActivity() {
 
     private var workoutList: MutableList<WorkoutModelClass> = mutableListOf()
-    private lateinit var adapter: WorkoutAdapter
+    private lateinit var adapter: Historyadapter
     private lateinit var datesHorizontalRV: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,7 +39,7 @@ class History : AppCompatActivity() {
         backBtn.setOnClickListener { finishAfterTransition() }
 
         val recyclerView = findViewById<RecyclerView>(R.id.gridView)
-        val dateEditText = findViewById<EditText>(R.id.dateEditText)
+        val dateEditText = findViewById<TextView>(R.id.dateEditText)
         val fetchButton = findViewById<Button>(R.id.fetchButton) // Assuming ID for button
 
         // Initialize dates recycler view
@@ -46,7 +47,7 @@ class History : AppCompatActivity() {
         datesHorizontalRV.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         fetchDates() // Call new function to fetch dates
 
-        adapter = WorkoutAdapter(workoutList, this)
+        adapter = Historyadapter(workoutList, this)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
 
@@ -146,7 +147,7 @@ class History : AppCompatActivity() {
 
     fun onDateClick(date: String) {
         // Update EditText with selected date
-        val dateEditText = findViewById<EditText>(R.id.dateEditText)
+        val dateEditText = findViewById<TextView>(R.id.dateEditText)
         dateEditText.setText(date)
 
         // If needed, call fetchWorkoutData(date) again to update displayed workouts

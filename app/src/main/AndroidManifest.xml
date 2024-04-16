@@ -16,8 +16,11 @@
         android:theme="@style/Theme.Empower"
         tools:targetApi="31">
         <activity
+            android:name=".WebView"
+            android:exported="false" />
+        <activity
             android:name=".WaterIntake"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".WorkoutDesc"
             android:exported="false" />
@@ -47,9 +50,7 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="true">
-
-        </activity>
+            android:exported="true"></activity>
     </application>
 
 </manifest>

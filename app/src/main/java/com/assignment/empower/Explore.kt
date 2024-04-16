@@ -1,6 +1,7 @@
 package com.assignment.empower
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.speech.tts.TextToSpeech
@@ -18,6 +19,7 @@ import android.view.ViewConfiguration
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView.OnItemTouchListener
 
 
@@ -53,7 +55,20 @@ class Explore : AppCompatActivity() {
         backBtn.setOnClickListener {
             finishAfterTransition()
         }
+        val premiumCardView = findViewById<CardView>(R.id.premium)
+        premiumCardView.setOnClickListener {
+            openGymsInMaps()
+        }
     }
+
+    private fun openGymsInMaps() {
+        Toast.makeText(this, "Finding gyms near you...", Toast.LENGTH_SHORT).show()
+        val location = "gyms near me" // Adjust search query as needed
+        val url = "https://www.google.com/maps/search/$location"
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        startActivity(intent)
+    }
+
 
     // Data class for the workout items
     data class ExploreDataClass(val img: String, val name: String, val description: String)

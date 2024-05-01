@@ -1,5 +1,6 @@
 package com.assignment.empower
 
+import android.annotation.SuppressLint
 import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
@@ -29,6 +30,7 @@ import android.widget.Toast
 import androidx.appcompat.widget.AppCompatButton
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -45,7 +47,7 @@ import kotlin.properties.Delegates
 class MainActivity : AppCompatActivity(), SensorEventListener {
     private var workoutList: MutableList<WorkoutModelClass> = mutableListOf()
     val adapter = WorkoutAdapter(workoutList, this)
-    lateinit var progressBar: ProgressBar
+    lateinit var progressBar: LottieAnimationView
     private var sensorManager: SensorManager? = null
     private var running = false
     private var totalSteps = 0f
@@ -54,13 +56,14 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     private var maxSteps: Int = 0
     private var currentSteps: Int = 0
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.enterTransition = Slide(Gravity.BOTTOM)
         setContentView(R.layout.activity_main)
 
         circularprogress = findViewById(R.id.circularprogress)
-            loadData()
+        loadData()
         resetSteps()
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
 
@@ -111,7 +114,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         }
 
         // Progress Bar
-        progressBar = findViewById(R.id.progressBar)
+        progressBar = findViewById(R.id.lottie_animation_view)
         progressBar.visibility = View.VISIBLE
 
         // Floating action button -> Profile Page

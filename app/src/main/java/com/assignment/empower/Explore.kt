@@ -1,10 +1,13 @@
 package com.assignment.empower
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.net.wifi.WifiManager
 import android.os.Bundle
 import android.os.Handler
 import android.speech.tts.TextToSpeech
+import android.text.format.Formatter
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
@@ -59,6 +62,7 @@ class Explore : AppCompatActivity() {
         premiumCardView.setOnClickListener {
             openGymsInMaps()
         }
+        enableWifi()
     }
 
     private fun openGymsInMaps() {
@@ -114,6 +118,13 @@ class Explore : AppCompatActivity() {
             textToSpeech.stop() // Stop any ongoing speech before speaking new name
         }
         textToSpeech.speak(workoutName, TextToSpeech.QUEUE_FLUSH, null, null)
+    }
+    private fun enableWifi() {
+        val wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        val winfo = wifiManager.connectionInfo
+        val ipaddress = Formatter.formatIpAddress(winfo.ipAddress)
+        val iptv = findViewById<TextView>(R.id.tvip)
+        iptv.text = "Your current ip address is: " + ipaddress
     }
 }
 

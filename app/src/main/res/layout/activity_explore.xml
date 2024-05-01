@@ -74,6 +74,20 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/tvip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="bold|italic"
+                android:layout_marginTop="10dp"
+                app:layout_constraintBottom_toTopOf="@id/tv"
+                app:layout_constraintEnd_toStartOf="@+id/card_image"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp"

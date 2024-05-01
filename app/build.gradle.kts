@@ -12,8 +12,8 @@ android {
         applicationId = "com.assignment.empower"
         minSdk = 24
         targetSdk = 33
-        versionCode = 4
-        versionName = "4.0"
+        versionCode = 7
+        versionName = "7.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -56,4 +56,6 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.14.2")
     // Progress Bar
     implementation("com.mikhaellopez:circularprogressbar:3.1.0")
+    // Lottie
+    implementation("com.airbnb.android:lottie:6.4.0")
 }

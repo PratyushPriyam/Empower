@@ -15,7 +15,7 @@ class WebView : AppCompatActivity() {
         setContentView(R.layout.activity_web_view)
         webview = findViewById(R.id.webview)
         webview.webViewClient = WebViewClient()
-        webview.loadUrl("https://pratyushpriyam.github.io/3D-Portfolio/")
+        webview.loadUrl("https://66226fe99108f810b6175aa5--inquisitive-gingersnap-2f1f13.netlify.app/")
         webview.settings.javaScriptEnabled = true
         webview.settings.setSupportZoom(true)
     }
